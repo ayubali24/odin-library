@@ -9,15 +9,15 @@ function Book(title, author, pages, readYet) {
     this.readYet = readYet;
 }
 
+Book.prototype.changeReadStatus = function() {
+    this.readYet = !(this.readYet)
+}
+
 function addBookToLibrary(title, author, pages, readYet) {
     const book = new Book(title, author, pages, readYet);
     book.id = crypto.randomUUID();
     myLibrary.push(book)
 }
-
-addBookToLibrary("Ayub's book", "Ayub Ali", 24, false);
-addBookToLibrary("Miles' book", "Miles Green", 100, true);
-addBookToLibrary("Dean's book", "Dean Ali", 224, true);
 
 let displayContainer = document.querySelector(".display");
 const myTable = document.getElementById("myTable");
@@ -25,7 +25,7 @@ const tbody = myTable.createTBody();
 
 
 
-function displayBooks2() {
+function displayBooks() {
     for (const book of myLibrary) {
         const row = document.createElement("tr");
         
@@ -45,11 +45,34 @@ function displayBooks2() {
         row.appendChild(cell2);
         row.appendChild(cell3);
         row.appendChild(cell4);
+        const myDeleteButton = document.createElement('button');
+        const changeReadStatusButton = document.createElement('button');
+        const tbody = document.querySelector("tbody");
+
+        myDeleteButton.innerText = "Delete Book";
+        changeReadStatusButton.innerText = "Change Read Status";
+
+        myDeleteButton.addEventListener('click', () => {
+            removeObjectWithId(myLibrary, book.id)
+            tbody.replaceChildren();
+            displayBooks()
+        });
+        changeReadStatusButton.addEventListener('click', () => {
+            book.changeReadStatus()
+            tbody.replaceChildren();
+            displayBooks()
+        })
+        row.appendChild(myDeleteButton);
+        row.appendChild(changeReadStatusButton);
         tbody.appendChild(row);
     }
 }
 
-displayBooks2()
+function removeObjectWithId(arr, id) {
+    const objWithIdIndex = arr.findIndex((obj) => obj.id === id);
+    arr.splice(objWithIdIndex, 1);
+    return arr;
+}
 
 function openForm() {
     document.getElementById("myForm").style.display = "block";
@@ -69,6 +92,6 @@ form.addEventListener("submit", (e) => {
     const tbody = document.querySelector("tbody");
     tbody.replaceChildren();
     // table.replaceChildren();
-    displayBooks2()
+    displayBooks()
 })
 
