@@ -8,9 +8,18 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="display">
-
-    </div>
+        <table id="myTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Page Count</th>
+                    <th>Read Book Yet?</th>
+                </tr>
+            </thead>
+            <!-- <tbody></tbody> -->
+        
+        </table>
     <button class="open-button" type="button" onclick="openForm()">New Book</button>
     <div class="form-popup" id="myForm">
         <form class="form-container">
@@ -27,15 +36,15 @@
 
                 <input type="hidden" name="readYet" value="no">
                 
-                <label for="subscribe">Have you read the book yet?*</label>
+                <label for="subscribe">I have read this book</label>
                 <input type="checkbox" id="readYet" name="readYet" value="yes" >
 
                 <button type="submit" class="btn">Submit</button>
                 <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-
             </fieldset>
         </form>
-
     </div>
+
+
 </body>
 </html>

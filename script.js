@@ -20,13 +20,36 @@ addBookToLibrary("Miles' book", "Miles Green", 100, true);
 addBookToLibrary("Dean's book", "Dean Ali", 224, true);
 
 let displayContainer = document.querySelector(".display");
+const myTable = document.getElementById("myTable");
+const tbody = myTable.createTBody();
 
-function displayBooks() {
+
+
+function displayBooks2() {
     for (const book of myLibrary) {
-        displayContainer.textContent += (book.title + book.author + book.pages + (book.readYet ? "Read" : "Not Read Yet"));
+        const row = document.createElement("tr");
+        
+        const cell1 = document.createElement("td");
+        const cell2 = document.createElement("td");
+        const cell3 = document.createElement("td");
+        const cell4 = document.createElement("td");
+
+        cell1.textContent = book.title;
+        cell2.textContent = book.author;
+        cell3.textContent = book.pages;
+        cell4.textContent = book.readYet ? "Yes" : "No";
+
+
+        // 4. Append row to tbody
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        row.appendChild(cell3);
+        row.appendChild(cell4);
+        tbody.appendChild(row);
     }
 }
-displayBooks()
+
+displayBooks2()
 
 function openForm() {
     document.getElementById("myForm").style.display = "block";
@@ -43,6 +66,9 @@ form.addEventListener("submit", (e) => {
     const data = new FormData(e.target);
     const entries = Object.fromEntries(data.entries());
     addBookToLibrary(entries.title, entries.author, entries.pages, entries.readYet == 'yes' ? true: false)
-    displayContainer.textContent = "";
-    displayBooks()
+    const tbody = document.querySelector("tbody");
+    tbody.replaceChildren();
+    // table.replaceChildren();
+    displayBooks2()
 })
+
