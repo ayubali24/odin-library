@@ -35,3 +35,14 @@ function openForm() {
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
+
+const form = document.querySelector("#myForm")
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const data = new FormData(e.target);
+    const entries = Object.fromEntries(data.entries());
+    addBookToLibrary(entries.title, entries.author, entries.pages, entries.readYet == 'yes' ? true: false)
+    displayContainer.textContent = "";
+    displayBooks()
+})
