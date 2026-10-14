@@ -19,13 +19,14 @@ function addBookToLibrary(title, author, pages, readYet) {
     myLibrary.push(book)
 }
 
-let displayContainer = document.querySelector(".display");
 const myTable = document.getElementById("myTable");
 const tbody = myTable.createTBody();
 
 
 
 function displayBooks() {
+    tbody.replaceChildren();
+
     for (const book of myLibrary) {
         const row = document.createElement("tr");
         
@@ -47,31 +48,46 @@ function displayBooks() {
         row.appendChild(cell4);
         const myDeleteButton = document.createElement('button');
         const changeReadStatusButton = document.createElement('button');
-        const tbody = document.querySelector("tbody");
 
         myDeleteButton.innerText = "Delete Book";
         changeReadStatusButton.innerText = "Change Read Status";
 
+        // if (myLibrary.length !== 0 && myLibrary.length <= 1) {
+        //     const header = document.getElementById("header");
+        //     console.log(header)
+        //     const cell6 = document.createElement("th");
+
+        //     cell6.textContent = "Actions";
+        //     header.appendChild(cell6);
+        //     console.log("hi", header);
+        // }
+      
+        
+        const cell5 = document.createElement("td");
+        cell5.appendChild(myDeleteButton);
+        cell5.appendChild(changeReadStatusButton);
+
+
         myDeleteButton.addEventListener('click', () => {
             removeObjectWithId(myLibrary, book.id)
-            tbody.replaceChildren();
             displayBooks()
         });
         changeReadStatusButton.addEventListener('click', () => {
             book.changeReadStatus()
-            tbody.replaceChildren();
             displayBooks()
         })
-        row.appendChild(myDeleteButton);
-        row.appendChild(changeReadStatusButton);
+        // row.appendChild(myDeleteButton);
+        // row.appendChild(changeReadStatusButton);
+        row.appendChild(cell5);
         tbody.appendChild(row);
     }
 }
 
 function removeObjectWithId(arr, id) {
     const objWithIdIndex = arr.findIndex((obj) => obj.id === id);
-    arr.splice(objWithIdIndex, 1);
-    return arr;
+    if (objWithIdIndex !== -1) {
+        arr.splice(objWithIdIndex, 1);
+    }
 }
 
 function openForm() {
@@ -82,15 +98,13 @@ function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
 
-const form = document.querySelector("#myForm")
+const form = document.querySelector(".form-container")
 
 form.addEventListener("submit", (e) => {
     e.preventDefault()
     const data = new FormData(e.target);
     const entries = Object.fromEntries(data.entries());
-    addBookToLibrary(entries.title, entries.author, entries.pages, entries.readYet == 'yes' ? true: false)
-    const tbody = document.querySelector("tbody");
-    tbody.replaceChildren();
+    addBookToLibrary(entries.title, entries.author, Number(entries.pages), entries.readYet === 'yes')
     // table.replaceChildren();
     displayBooks()
 })
