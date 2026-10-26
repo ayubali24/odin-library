@@ -2,15 +2,19 @@
 
 const myLibrary = [];
 
-function Book(title, author, pages, readYet) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.readYet = readYet;
-}
 
-Book.prototype.changeReadStatus = function() {
-    this.readYet = !(this.readYet)
+class Book {
+    constructor(title, author, pages, readYet) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.readYet = readYet;
+    }
+
+    changeReadStatus() {
+        this.readYet = !(this.readYet)
+
+    }
 }
 
 function addBookToLibrary(title, author, pages, readYet) {
@@ -51,18 +55,7 @@ function displayBooks() {
 
         myDeleteButton.innerText = "Delete Book";
         changeReadStatusButton.innerText = "Change Read Status";
-
-        // if (myLibrary.length !== 0 && myLibrary.length <= 1) {
-        //     const header = document.getElementById("header");
-        //     console.log(header)
-        //     const cell6 = document.createElement("th");
-
-        //     cell6.textContent = "Actions";
-        //     header.appendChild(cell6);
-        //     console.log("hi", header);
-        // }
-      
-        
+    
         const cell5 = document.createElement("td");
         cell5.appendChild(myDeleteButton);
         cell5.appendChild(changeReadStatusButton);
